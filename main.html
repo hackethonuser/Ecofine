@@ -1,0 +1,743 @@
+HTML CSSResult Skip Results Iframe
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ECO MART</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #1b5e20;
+            --secondary: #33691e;
+            --accent: #81c784;
+            --highlight: #ffca28;
+            --background: #e8f5e9;
+            --card-bg: #ffffff;
+            --text: #1b3e20;
+            --shadow: 0 6px 12px rgba(0,0,0,0.15);
+            --success: #2e7d32;
+            --warning: #d81b60;
+        }
+        [data-theme="dark"] {
+            --primary: #2e7d32;
+            --secondary: #4a8e3c;
+            --accent: #66bb6a;
+            --highlight: #ffb300;
+            --background: #1b2e20;
+            --card-bg: #2e3e20;
+            --text: #e8f5e9;
+            --shadow: 0 6px 12px rgba(0,0,0,0.4);
+            --success: #388e3c;
+            --warning: #c2185b;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Open Sans', sans-serif;
+            line-height: 1.6;
+            background: linear-gradient(135deg, var(--background), #c8e6c9);
+            color: var(--text);
+            min-height: 100vh;
+            transition: background 0.3s, color 0.3s;
+            background-image: url('data:image/svg+xml,%3Csvg width="120" height="120" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="M20 20c10 10 20 0 30 10s20-10 30 0 20 10 30-10" stroke="%2381c784" stroke-width="2" fill="none" opacity="0.2" /%3E%3Ccircle cx="60" cy="60" r="5" fill="%2381c784" opacity="0.1" /%3E%3C/svg%3E');
+            background-size: 120px 120px;
+        }
+
+        nav {
+            background: linear-gradient(90deg, var(--secondary), var(--primary));
+            padding: 1.5rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: var(--shadow);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            border-bottom: 5px solid var(--accent);
+            background-image: linear-gradient(to bottom, rgba(129, 199, 132, 0.2), light green);
+        }
+        .nav-left, .nav-right, .nav-filters { display: flex; align-items: center; gap: 1.5rem; }
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            font-family: 'Roboto Slab', serif;
+            font-weight: 700;
+            font-size: 1.2rem;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+            transition: color 0.3s, transform 0.3s;
+        }
+        nav a:hover { color: var(--highlight); transform: scale(1.05); }
+        .dropdown { position: relative; }
+        .dropdown-content {
+            display: none;
+            
+            background: var(--secondary);
+            min-width: 200px;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            z-index: 1;
+            top: 100%;
+            left: 0;
+            border: 2px solid var(--accent);
+            background-image: linear-gradient(to bottom, rgba(129, 199, 132, 0.2), transparent);
+        }
+        .dropdown-content a {
+            padding: 0.8rem 1rem;
+            display: block;
+            margin: 0;
+            font-size: 1rem;
+        }
+        .dropdown-content a:hover { background: var(--primary); }
+        .dropdown:hover .dropdown-content { display: block; }
+        .nav-search {
+            padding: 0.7rem 1.2rem;
+            border: 2px solid var(--accent);
+            border-radius: 30px;
+            width: 240px;
+            background: rgba(255, 255, 255, 0.85);
+            font-family: 'Open Sans', sans-serif;
+            font-size: 1rem;
+            transition: width 0.3s, border-color 0.3s;
+            background-image: linear-gradient(to right, rgba(129, 199, 132, 0.1), transparent);
+        }
+        .nav-search:focus { width: 300px; border-color: var(--highlight); outline: none; }
+        .nav-filters select {
+            padding: 0.7rem 1.2rem;
+            border: 2px solid var(--accent);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.85);
+            font-family: 'Open Sans', sans-serif;
+            font-weight: 600;
+            color: var(--text);
+            transition: border-color 0.3s;
+        }
+        .nav-filters select:focus { border-color: var(--highlight); outline: none; }
+        .profile { display: flex; align-items: center; color: #fff; cursor: pointer; }
+        .profile img { width: 45px; height: 45px; border-radius: 50%; margin-left: 12px; border: 3px solid var(--accent); box-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+        .notification-bell { position: relative; cursor: pointer; font-size: 1.8rem; color: #fff; }
+        .notification-count {
+            
+            top: -10px;
+            right: -10px;
+            background: var(--warning);
+            color: #fff;
+            border-radius: 50%;
+            width: 22px;
+            height: 22px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        .theme-toggle { 
+            cursor: pointer; 
+            padding: 0.7rem 1.2rem; 
+            background: var(--highlight); 
+            border-radius: 30px; 
+            font-size: 1.4rem; 
+            transition: transform 0.3s; 
+        }
+        .theme-toggle:hover { transform: rotate(360deg); }
+
+        @media (max-width: 768px) {
+            nav { flex-direction: column; padding: 1rem; }
+            .nav-left, .nav-right, .nav-filters { margin: 0.5rem 0; flex-wrap: wrap; justify-content: center; }
+            .nav-search, .nav-filters select { width: 100%; }
+            nav a { margin: 0.5rem; }
+        }
+
+        .container { max-width: 1350px; margin: 2.5rem auto; padding: 0 2rem; }
+        h1 { 
+            font-family: 'Roboto Slab', serif;
+            font-size: 3rem; 
+            font-weight: 700; 
+            background: linear-gradient(90deg, var(--primary), var(--accent)); 
+            -webkit-background-clip: text; 
+            color: light green; 
+            margin-bottom: 2rem; 
+            text-align: center; 
+            text-shadow: 1px 1px 4px rgba(0,0,0,0.2);
+        }
+        h2 { 
+            font-family: 'Roboto Slab', serif;
+            font-size: 2rem; 
+            font-weight: 700; 
+            color: var(--secondary); 
+            margin-bottom: 1.5rem; 
+            position: relative;
+        }
+        h2::after {
+            content: "🍃";
+            p
+            right: -30px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.5rem;
+        }
+        .card {
+            background: var(--card-bg);
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            margin-bottom: 2.5rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border-left: 8px solid var(--primary);
+            background-image: linear-gradient(to bottom right, rgba(129, 199, 132, 0.15), transparent);
+            position: relative;
+        }
+        .card::before {
+            content: "🌿";
+            
+            top: -10px;
+            left: -10px;
+            font-size: 2rem;
+            opacity: 0.3;
+        }
+        .card:hover { transform: translateY(-10px); box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
+        .form-container input,
+        .form-container textarea,
+        .form-container select {
+            width: 100%;
+            padding: 0.9rem;
+            margin: 0.7rem 0;
+            border: 2px solid var(--accent);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.9);
+            font-family: 'Open Sans', sans-serif;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        .form-container input:focus,
+        .form-container textarea:focus,
+        .form-container select:focus { border-color: var(--highlight); outline: none; }
+        [data-theme="dark"] .form-container input,
+        [data-theme="dark"] .form-container textarea,
+        [data-theme="dark"] .form-container select { background: rgba(232, 245, 233, 0.2); }
+        button {
+            background: linear-gradient(90deg, var(--primary), var(--success));
+            color: #fff;
+            padding: 0.9rem 1.8rem;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-family: 'Roboto Slab', serif;
+            font-weight: 600;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+            transition: background 0.3s, transform 0.3s;
+        }
+        button:hover { background: linear-gradient(90deg, var(--success), var(--primary)); transform: scale(1.05); }
+        .listing {
+            display: grid;
+            grid-template-columns: 130px 1fr auto;
+            gap: 1.5rem;
+            padding: 1.5rem;
+            border-bottom: 3px dashed var(--accent);
+            align-items: center;
+            background: linear-gradient(to right, rgba(27, 94, 32, 0.1), transparent);
+        }
+        .listing img { max-width: 110px; border-radius: 12px; border: 3px solid var(--primary); }
+        .dashboard-stats, .analytics-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .stat-card {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: #fff;
+            padding: 1.8rem;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s;
+            border: 2px solid var(--highlight);
+            position: relative;
+        }
+        .stat-card::after {
+            content: "🌱";
+            
+            bottom: -10px;
+            right: -10px;
+            font-size: 1.5rem;
+            opacity: 0.4;
+        }
+        .stat-card:hover { transform: scale(1.03); }
+        .favorite-btn { background: linear-gradient(90deg, var(--highlight), #ffb300); }
+        .favorite-btn:hover { background: linear-gradient(90deg, #ffb300, var(--highlight)); }
+        .reserve-btn { background: linear-gradient(90deg, var(--success), #388e3c); }
+        .reserve-btn:hover { background: linear-gradient(90deg, #388e3c, var(--success)); }
+        .message-form { margin-top: 1rem; display: flex; gap: 0.5rem; }
+        .message-form input { flex: 1; }
+        .rating { color: var(--highlight); font-weight: 600; }
+        #map { 
+            height: 320px; 
+            background: linear-gradient(135deg, #c8e6c9, #a5d6a7); 
+            border-radius: 12px; 
+            border: 2px solid var(--accent); 
+        }
+        .chat-history { 
+            max-height: 280px; 
+            overflow-y: auto; 
+            border: 2px solid var(--accent); 
+            padding: 1.5rem; 
+            border-radius: 12px; 
+            background: rgba(255, 255, 255, 0.7); 
+        }
+        .chat-message { 
+            margin: 0.8rem 0; 
+            padding: 0.8rem; 
+            background: linear-gradient(to right, var(--secondary), transparent); 
+            border-radius: 10px; 
+            color: #fff; 
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+        .impact-tracker { 
+            background: linear-gradient(135deg, var(--success), var(--primary)); 
+            color: #fff; 
+            padding: 1.8rem; 
+            border-radius: 15px; 
+            text-align: center; 
+            box-shadow: var(--shadow); 
+            border: 2px solid var(--accent); 
+        }
+        footer { 
+            background: linear-gradient(90deg, var(--secondary), var(--primary)); 
+            color: #fff; 
+            text-align: center; 
+            padding: 1.8rem; 
+            margin-top: 2.5rem; 
+            border-top: 5px solid var(--accent); 
+            background-image: linear-gradient(to top, rgba(129, 199, 132, 0.2), transparent);
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-left">
+            <a href="#" onclick="navigate('home')">🌿 Home</a>
+            <div class="dropdown">
+                <a href="#">🌲 Marketplace</a>
+                <div class="dropdown-content">
+                    <a href="#" onclick="navigate('home')">🌾 Browse Items</a>
+                    <a href="#" onclick="navigate('dashboard')">📦 My Listings</a>
+                    <a href="#" onclick="filterByCategory('recent')">⏳ Recent Posts</a>
+                    <a href="#" onclick="navigate('favorites')">🌟 Favorites</a>
+                    <a href="#" onclick="navigate('analytics')">📈 Analytics</a>
+                    <a href="#" onclick="navigate('chat')">💬 Chat History</a>
+                </div>
+            </div>
+            <a href="#" onclick="navigate('about')">ℹ About</a>
+            <a href="#" onclick="navigate('contact')">📧 Contact</a>
+        </div>
+        <div class="nav-filters">
+            <input type="text" class="nav-search" id="filterTag" placeholder="🔍 Search by tags or name..." />
+            <select id="filterCategory">
+                <option value="">🌍 All Categories</option>
+                <option value="Wood">🌳 Wood</option>
+                <option value="Metal">⚙ Metal</option>
+                <option value="Plastic">♻ Plastic</option>
+                <option value="Organic">🍃 Organic</option>
+                <option value="Other">➕ Other</option>
+            </select>
+            <select id="filterStatus">
+                <option value="">📊 All Statuses</option>
+                <option value="Available">✅ Available</option>
+                <option value="Reserved">⏳ Reserved</option>
+                <option value="Requested">📩 Requested</option>
+                <option value="Completed">✔ Completed</option>
+            </select>
+        </div>
+        <div class="nav-right">
+            <div class="notification-bell" onclick="showNotifications()">
+                🌸 <span class="notification-count" id="notificationCount">0</span>
+            </div>
+            <div class="profile" onclick="navigate('dashboard')">
+                <span id="userName">Guest</span>
+                <img id="profileImg" src="https://via.placeholder.com/30" alt="Profile" />
+            </div>
+            <div class="theme-toggle" onclick="toggleTheme()">🌙</div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div id="content" class="card"></div>
+    </div>
+
+    <footer>
+        <p>© 2025 Circular Economy Marketplace. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const content = document.getElementById('content');
+        const filterTag = document.getElementById('filterTag');
+        const filterCategory = document.getElementById('filterCategory');
+        const filterStatus = document.getElementById('filterStatus');
+        const notificationCount = document.getElementById('notificationCount');
+
+        let items = [];
+        let favorites = [];
+        let chatMessages = [];
+        let userType = 'Lister';
+        let requestedItems = 0;
+        let reservedItems = 0;
+        let notifications = [];
+        let totalItemViews = 0;
+        let userProfile = { name: 'Guest', image: 'https://via.placeholder.com/30' };
+        let wasteDiverted = 0;
+        let currentPage = 'home';
+
+        document.getElementById('userName').textContent = userProfile.name;
+        document.getElementById('profileImg').src = userProfile.image;
+
+        filterTag.addEventListener('input', () => currentPage === 'home' && renderHome());
+        filterCategory.addEventListener('change', () => currentPage === 'home' && renderHome());
+        filterStatus.addEventListener('change', () => currentPage === 'home' && renderHome());
+
+        function renderHome() {
+            content.innerHTML = `
+                <h1>Circular Economy Marketplace</h1>
+                <div class="user-type">
+                    <h2>🌱 Select User Type</h2>
+                    <select id="userType">
+                        <option value="Lister" ${userType === 'Lister' ? 'selected' : ''}>Lister (Business/Farmer)</option>
+                        <option value="Collector" ${userType === 'Collector' ? 'selected' : ''}>Collector (Artist/NGO)</option>
+                    </select>
+                </div>
+                <div class="form-container">
+                    <h2>🌾 Post a By-product</h2>
+                    <form id="postForm">
+                        <input type="text" id="name" placeholder="Item Name" required />
+                        <textarea id="description" placeholder="Description" rows="4" required></textarea>
+                        <input type="number" id="quantity" placeholder="Quantity" min="1" required />
+                        <select id="category" required>
+                            <option value="">Select Category</option>
+                            <option value="Wood">Wood</option>
+                            <option value="Metal">Metal</option>
+                            <option value="Plastic">Plastic</option>
+                            <option value="Organic">Organic</option>
+                            <option value="Other">Other</option>
+                        </select>
+                        <input type="text" id="tags" placeholder="Tags (e.g., wood, metal)" />
+                        <input type="text" id="location" placeholder="Location (e.g., City, Country)" />
+                        <input type="file" id="image" accept="image/*" />
+                        <button type="submit">Post Item</button>
+                    </form>
+                </div>
+                <div>
+                    <h2>🗺 Item Locations</h2>
+                    <div id="map">Map placeholder - Locations: ${items.filter(item => item.location).map(item => item.location).join(', ')}</div>
+                </div>
+                <div class="listings">
+                    <h2>🌿 Available Items</h2>
+                    <div id="itemsList"></div>
+                </div>
+            `;
+            document.getElementById('userType').addEventListener('change', (e) => {
+                userType = e.target.value;
+                renderDashboard();
+            });
+            document.getElementById('postForm').addEventListener('submit', handlePost);
+            displayItems();
+        }
+
+        function handlePost(e) {
+            e.preventDefault();
+            const item = {
+                name: document.getElementById('name').value,
+                description: document.getElementById('description').value,
+                quantity: document.getElementById('quantity').value,
+                category: document.getElementById('category').value,
+                tags: document.getElementById('tags').value.toLowerCase(),
+                location: document.getElementById('location').value,
+                userType,
+                status: 'Available',
+                reservedBy: null,
+                timestamp: new Date().toISOString(),
+                views: 0,
+                ratings: []
+            };
+            const imageFile = document.getElementById('image').files[0];
+            if (imageFile) {
+                const reader = new FileReader();
+                reader.onload = () => {
+                    item.image = reader.result;
+                    items.push(item);
+                    renderHome();
+                };
+                reader.readAsDataURL(imageFile);
+            } else {
+                items.push(item);
+                renderHome();
+            }
+            e.target.reset();
+        }
+
+        function displayItems() {
+            const itemsList = document.getElementById('itemsList');
+            if (!itemsList) return;
+            const tagFilter = filterTag.value.toLowerCase();
+            const catFilter = filterCategory.value;
+            const statusFilter = filterStatus.value;
+            itemsList.innerHTML = '';
+            items
+                .filter(item => 
+                    (item.tags.includes(tagFilter) || item.name.toLowerCase().includes(tagFilter)) &&
+                    (catFilter === '' || item.category === catFilter) &&
+                    (statusFilter === '' || item.status === statusFilter)
+                )
+                .forEach((item, index) => {
+                    item.views++;
+                    totalItemViews++;
+                    const avgRating = item.ratings.length ? (item.ratings.reduce((a, b) => a + b, 0) / item.ratings.length).toFixed(1) : 'N/A';
+                    itemsList.innerHTML += `
+                        <div class="listing">
+                            ${item.image ? `<img src="${item.image}" alt="${item.name}" />` : '<div></div>'}
+                            <div>
+                                <strong>${item.name}</strong><br>
+                                <em>${item.description}</em><br>
+                                <span>Quantity: ${item.quantity}</span><br>
+                                <span>Category: ${item.category}</span><br>
+                                <span>Tags: ${item.tags}</span><br>
+                                <span>Location: ${item.location || 'Not specified'}</span><br>
+                                <span>Status: ${item.status}${item.reservedBy ? ' (Reserved by ' + item.reservedBy + ')' : ''}</span><br>
+                                <span>Posted by: ${item.userType}</span><br>
+                                <span class="rating">Rating: ${avgRating} (${item.ratings.length} reviews)</span><br>
+                                <span>Views: ${item.views}</span><br>
+                                <small>${new Date(item.timestamp).toLocaleDateString()}</small>
+                            </div>
+                            <div>
+                                <button onclick="requestItem(${index})" ${item.status !== 'Available' ? 'disabled' : ''}>Request Item</button>
+                                <button class="reserve-btn" onclick="reserveItem(${index})" ${item.status !== 'Available' || item.reservedBy ? 'disabled' : ''}>Reserve Item</button>
+                                <button class="favorite-btn" onclick="toggleFavorite(${index})">${favorites.includes(index) ? 'Remove Favorite' : 'Add to Favorites'}</button>
+                                <form class="message-form" onsubmit="sendMessage(event, ${index})">
+                                    <input type="text" placeholder="Send a message..." required />
+                                    <button type="submit">Send</button>
+                                </form>
+                                <select onchange="rateItem(${index}, this.value)">
+                                    <option value="">Rate Item</option>
+                                    <option value="1">★☆☆☆☆</option>
+                                    <option value="2">★★☆☆☆</option>
+                                    <option value="3">★★★☆☆</option>
+                                    <option value="4">★★★★☆</option>
+                                    <option value="5">★★★★★</option>
+                                </select>
+                            </div>
+                        </div>
+                    `;
+                });
+            updateAnalytics();
+        }
+
+        function renderDashboard() {
+            const userItems = items.filter(item => item.userType === userType);
+            content.innerHTML = `
+                <h2>🌍 User Dashboard</h2>
+                <div class="dashboard-stats">
+                    <div class="stat-card"><h3>${userItems.length}</h3><p>Items Posted</p></div>
+                    <div class="stat-card"><h3>${requestedItems}</h3><p>Items Requested</p></div>
+                    <div class="stat-card"><h3>${favorites.length}</h3><p>Favorites</p></div>
+                    <div class="stat-card"><h3>${reservedItems}</h3><p>Items Reserved</p></div>
+                </div>
+                <p>Logged in as: ${userType}</p>
+                <h3>📦 Your Items</h3>
+                <ul id="userItems">
+                    ${userItems.map(item => `<li>${item.name} (${item.quantity}) - ${item.status}${item.reservedBy ? ' (Reserved by ' + item.reservedBy + ')' : ''} - <small>${new Date(item.timestamp).toLocaleDateString()}</small></li>`).join('')}
+                </ul>
+                <h3>🌟 Customize Profile</h3>
+                <form id="profileForm">
+                    <input type="text" id="customName" placeholder="Display Name" />
+                    <input type="file" id="profileImage" accept="image/*" />
+                    <button type="submit">Update Profile</button>
+                </form>
+            `;
+            document.getElementById('profileForm').addEventListener('submit', handleProfileUpdate);
+        }
+
+        function handleProfileUpdate(e) {
+            e.preventDefault();
+            const customName = document.getElementById('customName').value;
+            const profileImage = document.getElementById('profileImage').files[0];
+            if (customName) userProfile.name = customName;
+            if (profileImage) {
+                const reader = new FileReader();
+                reader.onload = () => {
+                    userProfile.image = reader.result;
+                    document.getElementById('profileImg').src = userProfile.image;
+                    document.getElementById('userName').textContent = userProfile.name;
+                    renderDashboard();
+                };
+                reader.readAsDataURL(profileImage);
+            } else {
+                document.getElementById('userName').textContent = userProfile.name;
+                renderDashboard();
+            }
+            addNotification('Profile updated successfully!');
+            e.target.reset();
+        }
+
+        function renderFavorites() {
+            content.innerHTML = `
+                <h2>🌟 Your Favorites</h2>
+                <div id="favoritesList">
+                    ${favorites.map(index => `
+                        <div class="listing">
+                            ${items[index].image ? `<img src="${items[index].image}" alt="${items[index].name}" />` : '<div></div>'}
+                            <div>
+                                <strong>${items[index].name}</strong><br>
+                                <span>Status: ${items[index].status}${items[index].reservedBy ? ' (Reserved by ' + items[index].reservedBy + ')' : ''}</span><br>
+                                <small>${new Date(items[index].timestamp).toLocaleDateString()}</small>
+                            </div>
+                            <button class="favorite-btn" onclick="toggleFavorite(${index})">Remove</button>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function renderAnalytics() {
+            const userItems = items.filter(item => item.userType === userType);
+            const allRatings = userItems.flatMap(item => item.ratings);
+            const avg = allRatings.length ? (allRatings.reduce((a, b) => a + b, 0) / allRatings.length).toFixed(1) : 'N/A';
+            content.innerHTML = `
+                <h2>📈 Your Analytics</h2>
+                <div class="analytics-stats">
+                    <div class="stat-card"><h3>${userItems.reduce((sum, item) => sum + item.views, 0)}</h3><p>Total Views</p></div>
+                    <div class="stat-card"><h3>${avg}</h3><p>Average Rating</p></div>
+                    <div class="stat-card"><h3>${userItems.filter(item => item.status === 'Completed').length}</h3><p>Completed Deals</p></div>
+                </div>
+                <div class="impact-tracker">
+                    <h3>🌱 Sustainability Impact</h3>
+                    <p>${wasteDiverted} kg of waste diverted</p>
+                </div>
+            `;
+        }
+
+        function renderChat() {
+            content.innerHTML = `
+                <h2>💬 Chat History</h2>
+                <div class="chat-history">
+                    ${chatMessages.map(msg => `<div class="chat-message">${new Date(msg.timestamp).toLocaleString()} - To ${msg.to} about ${msg.item}: ${msg.message}</div>`).join('')}
+                </div>
+            `;
+        }
+
+        function renderAbout() {
+            content.innerHTML = `
+                <h2>ℹ About This Project</h2>
+                <p>This Circular Economy Marketplace connects businesses and farmers with artists and NGOs to give a second life to by-products and waste materials. Our mission is to reduce waste and promote sustainable reuse practices.</p>
+            `;
+        }
+
+        function renderContact() {
+            content.innerHTML = `
+                <h2>📧 Contact Us</h2>
+                <form id="contactForm">
+                    <input type="text" id="contactName" placeholder="Your Name" required />
+                    <input type="email" id="contactEmail" placeholder="Your Email" required />
+                    <textarea id="contactMessage" placeholder="Your Message" rows="5" required></textarea>
+                    <button type="submit">Send Message</button>
+                </form>
+            `;
+            document.getElementById('contactForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                alert('Message sent successfully!');
+                e.target.reset();
+            });
+        }
+
+        function requestItem(index) {
+            items[index].status = 'Requested';
+            requestedItems++;
+            wasteDiverted += parseInt(items[index].quantity);
+            addNotification(`Your request for ${items[index].name} has been sent.`);
+            navigate(currentPage);
+        }
+
+        function reserveItem(index) {
+            items[index].status = 'Reserved';
+            items[index].reservedBy = userProfile.name;
+            reservedItems++;
+            addNotification(`You reserved ${items[index].name}.`);
+            navigate(currentPage);
+        }
+
+        function toggleFavorite(index) {
+            const favIndex = favorites.indexOf(index);
+            if (favIndex === -1) {
+                favorites.push(index);
+                addNotification(`${items[index].name} added to favorites.`);
+            } else {
+                favorites.splice(favIndex, 1);
+                addNotification(`${items[index].name} removed from favorites.`);
+            }
+            navigate(currentPage);
+        }
+
+        function sendMessage(event, index) {
+            event.preventDefault();
+            const message = event.target.querySelector('input').value;
+            const msg = { to: items[index].userType, item: items[index].name, message, timestamp: new Date().toISOString() };
+            chatMessages.push(msg);
+            addNotification(`Message sent to ${items[index].userType} about ${items[index].name}: "${message}"`);
+            event.target.reset();
+            navigate(currentPage);
+        }
+
+        function rateItem(index, rating) {
+            if (rating) {
+                items[index].ratings.push(parseInt(rating));
+                addNotification(`You rated ${items[index].name} ${rating} stars.`);
+                navigate(currentPage);
+            }
+        }
+
+        function addNotification(message) {
+            notifications.push({ message, timestamp: new Date().toISOString() });
+            notificationCount.textContent = notifications.length;
+        }
+
+        function showNotifications() {
+            alert(notifications.map(n => `${new Date(n.timestamp).toLocaleString()}: ${n.message}`).join('\n'));
+        }
+
+        function updateAnalytics() {
+            if (currentPage === 'analytics') renderAnalytics();
+        }
+
+        function navigate(page) {
+            currentPage = page;
+            switch (page) {
+                case 'home': renderHome(); break;
+                case 'dashboard': renderDashboard(); break;
+                case 'favorites': renderFavorites(); break;
+                case 'analytics': renderAnalytics(); break;
+                case 'chat': renderChat(); break;
+                case 'about': renderAbout(); break;
+                case 'contact': renderContact(); break;
+            }
+        }
+
+        function filterByCategory(category) {
+            if (category === 'recent') {
+                items.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+                renderHome();
+            }
+        }
+
+        function toggleTheme() {
+            const body = document.body;
+            const currentTheme = body.getAttribute('data-theme');
+            body.setAttribute('data-theme', currentTheme === 'dark' ? 'light' : 'dark');
+            document.querySelector('.theme-toggle').textContent = currentTheme === 'dark' ? '🌙' : '☀';
+        }
+
+        navigate('home');
+    </script>
+</body>
+</html>
+
+Resources
